@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <title>Dental Notes</title>
 </head>
 <style>
@@ -32,7 +34,7 @@
     }
 
     .styled-table thead tr {
-        background-color: #009879;
+        background-color: #1d4157;
         color: #ffffff;
         text-align: left;
     }
@@ -60,37 +62,67 @@
     }
 
     .example {
-        border: 2px solid black;
         padding: 2px;
-        background: url("/static/img/logo.jpeg");
-        background-repeat: no-repeat;
-        background-size: 1350px 650px;
+        background-color: #009879;
     }
+    .flex-container, .nav-links, .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.nav {
+    height: 80px;
+    background-color: #1d4157;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.nav-links {
+    width: 50%;
+    list-style-type: none;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #f3f3f3;
+    text-decoration: none;
+}
+
+.nav-links a.active {
+    color: #fff;
+    font-weight: bold;
+}
+
+h5{
+    color: white;
+}
 </style>
 
 <body class="example">
-    <nav class="nav-tabs nav-link flex-start">
-        <div>
+    <div class="nav">
+        <ul class="nav-links">
             <a class="active" href="{% url 'medicine:dashboard' %}">Home</a>
             <a href="#appointments">Appointments</a>
             <a href="#contact">Contact</a>
             <a href="#about">About</a>
-        </div>
+        </ul>
         <div>
-            <h5>Welcome Doctor {{ request.session.username }}</h5>
+            <h5 >Welcome Doctor {{ request.session.username }}</h5>
             <div>
-                <a href="{% url 'medicine:destroy' %}">Logout</a>
+                <a style="color: white" href="{% url 'medicine:destroy' %}">Logout</a>
             </div>
         </div>
-    </nav>
+    </div>
     <div class="flex">
         <div>
-            <h1 class=""> Add Your Note :- </h1>
+            <h1 class=""> Add Your Note</h1>
             <form action="{% url 'medicine:MidNotes' id %}" method="post">
                 {% csrf_token %}
-                <label for="desc" class="col-form-label">Note :-</label>
+                <label for="desc" class="col-form-label"><b>Note</b></label>
                 <input type="text" name="desc" id="desc" class="form-control">
-                <button type="submit" class="btn btn-secondary btn-sm">Add A Note</button>
+                <button type="submit" class="btn btn-warning">Add A Note</button>
             </form>
         </div>
         <table class="styled-table">
