@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Dashbored</title>
+</head>
+<style>
+    body {
+    background-color: #f3f3f3;
+    font-family: 'Roboto', sans-serif;
+}
+
+.flex-container {
+    width: 1000px;
+    margin: 0 auto;
+}
+
+.flex-container, .nav-links, .nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+}
+
+.nav {
+    height: 80px;
+    background-color: #1d4157;
+    color: #fff;
+    margin-bottom: 20px;
+}
+
+.nav-links {
+    width: 50%;
+    list-style-type: none;
+    align-items: center;
+}
+
+.nav-links a {
+    color: #f3f3f3;
+    text-decoration: none;
+}
+
+.nav-links a.active {
+    color: #fff;
+    font-weight: bold;
+}
+
+h5{
+    color: white;
+}
+
+.flex {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 100px;
+}
+.flex-start {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+}
+.text {
+    margin: 7px;
+    color: gray;
+}
+.patients {
+    background-color: #fff;
+    border: 2px solid #999;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    overflow: hidden;
+}
+
+
+.patient-header {
+    background-color: #1d4157;
+    color: #f3f3f3;
+    text-align: center;
+    padding: 3px;
+}
+
+.patients-list {
+    padding: 10px;
+
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin-top: 10px;
+}
+.img-avatar {
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+.home-page {
+    background: url("/static/img/doctor-slider-900.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+</style>
+
+<body class="home-page">
+    <div class="nav">
+            <ul class="nav-links">
+                <a class="active" href="{% url 'medicine:dashboard' %}">Home</a>
+                <a href="#appointments">Appointments</a>
+                <a href="#contact">Contact</a>
+                <a href="#about">About</a>
+            </ul>
+            <div>
+                <h5 >Welcome Doctor {{ request.session.username }}</h5>
+                <div>
+                    <a style="color: white" href="{% url 'medicine:destroy' %}">Logout</a>
+                </div>
+            </div>
+        </div>
+    <div class="flex">
+        <div>
+            <h1>Create a patient :</h1>
+            <form action="{% url 'medicine:dashboard' %}" method="post">
+                {% csrf_token %}
+                <input type="text" name="patientName" id="" placeholder="Enter patient's name"
+                    class="form-control border-dark">
+                <div class="text">Please select the patient's gender:</div>
+                <div class="mb-3">
+                <input type="radio" id="male" name="sex" value="1">
+                <label for="male">Male</label><br>
+                <input type="radio" id="female" name="sex" value="2">
+                <label for="female">Female</label>
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+
+        <div class="patients">
+            <div class="patient-header">
+                <h3>Patients</h3>
+                <form class="form-inline" action="{% url 'medicine:search' %}" method="post">
+                    <input class="form-control mr-sm-2" type="search"  name="search2"
+                     placeholder="Search" aria-label="Search">
+                    {% csrf_token %}
+                    <button class="btn btn-outline-primary btn-sm my-2 my-sm-0" type="search">Search</button>
+                  </form>
+            </div>
+            <div class="patients-list">
+            {% for patient in all_patient %}
+                    {% if patient.sex == 1 %}
+                    <img src="{% static 'img/R.jpg' %}" alt="toddE" class="img-avatar">
+                    {% elif patient.sex == 2 %}
+                    <img src="{% static 'img/RR.png' %}" alt="toddE" class="img-avatar">
+                    {% else %}
+                    <h4>No Patients in Our System yet</h4>
+                    {% endif %}
+            
+                        <a href="{% url 'medicine:basicInfo' patient.id %}">
+                            <span>{{ patient.patientName }} </span>
+                        </a>
+                    <hr>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

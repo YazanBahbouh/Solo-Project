@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Dental Notes</title>
+</head>
+<style>
+    .flex {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .flex-start {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #009879;
+    }
+
+    .example {
+        border: 2px solid black;
+        padding: 2px;
+        background: url("/static/img/logo.jpeg");
+        background-repeat: no-repeat;
+        background-size: 1350px 650px;
+    }
+</style>
+
+<body class="example">
+    <nav class="nav-tabs nav-link flex-start">
+        <div>
+            <a class="active" href="{% url 'medicine:dashboard' %}">Home</a>
+            <a href="#appointments">Appointments</a>
+            <a href="#contact">Contact</a>
+            <a href="#about">About</a>
+        </div>
+        <div>
+            <h5>Welcome Doctor {{ request.session.username }}</h5>
+            <div>
+                <a href="{% url 'medicine:destroy' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="flex">
+        <div>
+            <h1 class=""> Add Your Billing :- </h1>
+            <form action="{% url 'medicine:billingHistory' id %}" method="post">
+                {% csrf_token %}
+                <div class="position-relative form-group form-inline">
+                    <input type="checkbox" name="type" class="form-control form-control-sm mr-2 border-dark"
+                        placeholder="First Name" value="1">
+                    <label for="underTreatment" class="mr-1">By Cash</label>
+
+                </div>
+                <div>
+                    <label for="desc" class="col-form-label">Amount :-</label>
+                    <input type="text" name="amount" id="desc" class="form-control">
+                </div>
+                <div>
+                    <label for="desc" class="col-form-label">Currency :-</label>
+                    <input type="text" name="details" id="desc" class="form-control">
+                </div>
+
+                <div class="position-relative form-group form-inline">
+                    <input type="checkbox" name="type" class="form-control form-control-sm mr-2 border-dark"
+                        placeholder="First Name" value="2">
+                    <label for="underTreatment" class="mr-1">By Privte Insurance</label>
+                </div>
+
+                <div>
+                    <label for="desc" class="col-form-label">Details :-</label>
+                    <input type="text" name="details1" id="desc" class="form-control">
+                </div>
+
+                <button type="submit" class="btn btn-secondary btn-sm">Add A Note</button>
+            </form>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Details</th>
+                    <th>Create At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in allBilling %}
+                <tr class="active-row">
+                    <td>{{ i.type }}</td>
+                    <td>{{ i.amount }}</td>
+                    <td>{{ i.description }}</td>
+                    <td>{{ i.createAt }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td>
+                        Your total billing is {{ Total2.total_price }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

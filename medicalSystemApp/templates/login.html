@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <title>Login</title>
+    <style>
+
+
+.flex-container {
+    margin: 0;
+    background: url("/static/img/healthimage.jpg");
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    }
+    
+
+/* Add padding to containers */
+.container {
+  padding: 36px;
+}
+
+input[type=text], input[type=password], [type=email], [type=date] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+input[type=text]:focus, input[type=password]:focus, [type=email]:focus, [type=date]:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+/* Overwrite default styles of hr */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* Set a style for the submit/register button */
+.registerbtn {
+  background-color: #04AA6D;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+}
+
+.registerbtn:hover {
+  opacity:1;
+}
+
+/* Add a blue text color to links */
+a {
+  color: dodgerblue;
+}
+    </style>
+</head>
+
+
+<body>
+    <div class="flex-container">
+        <div class="col-6">
+            <form action="/login" method="post">
+                {% csrf_token %}
+                <div class="container">
+                    <h1 class="h2 my-4">Login</h1>
+                            {% if request.session.LoginAuth %}
+                            {{ request.session.LoginAuth }}
+                            {% endif %}
+                        
+                       
+                        <label for="email"><b>Username</b></label>
+                        <input type="email" placeholder="Enter your email" name="email">
+                  
+                        <label for="password"><b>Password</b></label>
+                        <input type="password" placeholder="Enter your Password" name="password">
+                          
+                        <button type="submit" class="registerbtn">Login</button>
+                </div>
+            </form>
+        </div>
+    </div>   
+</body>
+
+</html>

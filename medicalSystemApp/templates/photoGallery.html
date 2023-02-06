@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Document</title>
+</head>
+<style>
+    .active-row {
+        display: inline-block;
+    }
+
+    .flex {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .flex-start {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .example {
+        border: 2px solid black;
+        padding: 2px;
+        background: url("/static/img/logo.jpeg");
+        background-repeat: no-repeat;
+        background-size: 1350px 650px;
+    }
+</style>
+
+<body class="example">
+    <nav class="nav-tabs nav-link flex-start">
+        <div>
+            <a class="active" href="{% url 'medicine:dashboard' %}">Home</a>
+            <a href="#appointments">Appointments</a>
+            <a href="#contact">Contact</a>
+            <a href="#about">About</a>
+        </div>
+        <div>
+            <h5>Welcome Doctor {{ request.session.username }}</h5>
+            <div>
+                <a href="{% url 'medicine:destroy' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <form action="{% url 'medicine:midPhoto' id %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="position-relative form-group form-inline mt-3">
+            <label for="uploadPic" class="mr-2">Uploaded Photo :- </label>
+            <input type="file" name="uploadPic" class="form-control form-control-sm border-dark mr-2"
+                placeholder="Upload Photo">
+            <input type="submit" class="btn btn-secondary btn-sm">
+        </div>
+    </form>
+    {% for i in allPhoto %}
+    <div class="active-row mr-3">
+        <h5>Create At : {{ i.createAt }}</h5>
+        <img src="/media/{{ i.uploadPic }}" alt="" width="400" height="200">
+    </div>
+    {% endfor %}
+</body>
+
+</html>

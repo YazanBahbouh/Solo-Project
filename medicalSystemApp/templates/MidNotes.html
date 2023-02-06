@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Dental Notes</title>
+</head>
+<style>
+    .flex {
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+    }
+
+    .flex-start {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .styled-table {
+        border-collapse: collapse;
+        margin: 25px 0;
+        font-size: 0.9em;
+        font-family: sans-serif;
+        min-width: 400px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .styled-table thead tr {
+        background-color: #009879;
+        color: #ffffff;
+        text-align: left;
+    }
+
+    .styled-table th,
+    .styled-table td {
+        padding: 12px 15px;
+    }
+
+    .styled-table tbody tr {
+        border-bottom: 1px solid #dddddd;
+    }
+
+    .styled-table tbody tr:nth-of-type(even) {
+        background-color: #f3f3f3;
+    }
+
+    .styled-table tbody tr:last-of-type {
+        border-bottom: 2px solid #009879;
+    }
+
+    .styled-table tbody tr.active-row {
+        font-weight: bold;
+        color: #009879;
+    }
+
+    .example {
+        border: 2px solid black;
+        padding: 2px;
+        background: url("/static/img/logo.jpeg");
+        background-repeat: no-repeat;
+        background-size: 1350px 650px;
+    }
+</style>
+
+<body class="example">
+    <nav class="nav-tabs nav-link flex-start">
+        <div>
+            <a class="active" href="{% url 'medicine:dashboard' %}">Home</a>
+            <a href="#appointments">Appointments</a>
+            <a href="#contact">Contact</a>
+            <a href="#about">About</a>
+        </div>
+        <div>
+            <h5>Welcome Doctor {{ request.session.username }}</h5>
+            <div>
+                <a href="{% url 'medicine:destroy' %}">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="flex">
+        <div>
+            <h1 class=""> Add Your Note :- </h1>
+            <form action="{% url 'medicine:MidNotes' id %}" method="post">
+                {% csrf_token %}
+                <label for="desc" class="col-form-label">Note :-</label>
+                <input type="text" name="desc" id="desc" class="form-control">
+                <button type="submit" class="btn btn-secondary btn-sm">Add A Note</button>
+            </form>
+        </div>
+        <table class="styled-table">
+            <thead>
+                <tr>
+                    <th>Note</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in allNotes %}
+                <tr class="active-row">
+                    <td>{{ i.description }}</td>
+                    <td>{{ i.createAt }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
