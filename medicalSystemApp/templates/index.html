@@ -16,9 +16,9 @@
     .flex-container {
     margin: 0;
     background: url("/static/img/healthimage.jpg");
-    background-size: contain;
+    background-size: cover;
     display: flex;
-    justify-content: center;
+    justify-content: space-around;
     }
     
 
@@ -81,51 +81,67 @@ a {
 
 <body>
     <div class="flex-container">
-        <div class="col-6">
-            <form action="/register" method="post">
-                {% csrf_token %}
-                
-                <div class="container">
-                    <h1>Register</h1>
-                    <p>Please fill in this form to create an account.</p>
-                    <hr>
-                    <div class="text-center pb-2">
-                        
-                        {% if messages %}
-                        <ul class="messages">
-                                {% for message in messages %}
-                                    <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
-                                {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </div>
+      <div class="col-6">
+        <form action="/register" method="post">
+          {% csrf_token %}
+          
+          <div class="container">
+              <h1>Register</h1>
+              <p>Please fill in this form to create an account.</p>
+              <hr>
+              <div class="text-center pb-2">
+                  
+                  {% if messages %}
+                  <ul class="messages">
+                          {% for message in messages %}
+                              <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                          {% endfor %}
+                  </ul>
+                  {% endif %}
+              </div>
+             
+               <label for="firstName"><b>First name*</b></label>
+              <input type="text" name="firstName" id="firstName" placeholder="Enter First name"/>
+              
+               <label for="lastName"><b>Last name*</b></label>
+               <input type="text" name="lastName" id="lastName" placeholder="Enter Last name"/>
+  
+               <label for="birthdayDate"><b>Birthday Date *</b></label>
+               <input type="date" name="birthdayDate" id="birthdayDate" placeholder="Birthday Date"/>
                    
-                     <label for="firstName"><b>First name*</b></label>
-                    <input type="text" name="firstName" id="firstName" placeholder="Enter First name"/>
+              <label for="email"><b>Email *</b></label>
+              <input type="email" placeholder="Enter Email" name="email" id="email">
+          
+              <label for="password"><b>Password *</b></label>
+              <input type="password" placeholder="Enter Password" name="password" id="password">
+          
+              <label for="confrimPassword"><b>Confim Password *</b></label>
+              <input type="password" placeholder="Confim Password" name="confrimPassword" id="confrimPassword">
+              <hr>
+              <button type="submit" class="registerbtn">Register</button>   
+              </div>
+        </form>
+      </div>
+      <div class="col-6">
+        <form action="/login" method="post">
+          {% csrf_token %}
+          <div class="container">
+              <h1>Login</h1>
+                      {% if request.session.LoginAuth %}
+                      {{ request.session.LoginAuth }}
+                      {% endif %}
+                  
+                 
+                  <label for="email"><b>Username</b></label>
+                  <input type="email" placeholder="Enter your email" name="email">
+            
+                  <label for="password"><b>Password</b></label>
+                  <input type="password" placeholder="Enter your Password" name="password">
                     
-                     <label for="lastName"><b>Last name*</b></label>
-                     <input type="text" name="lastName" id="lastName" placeholder="Enter Last name"/>
-
-                     <label for="birthdayDate"><b>Birthday Date *</b></label>
-                     <input type="date" name="birthdayDate" id="birthdayDate" placeholder="Birthday Date"/>
-                         
-                    <label for="email"><b>Email *</b></label>
-                    <input type="email" placeholder="Enter Email" name="email" id="email">
-                
-                    <label for="password"><b>Password *</b></label>
-                    <input type="password" placeholder="Enter Password" name="password" id="password">
-                
-                    <label for="confrimPassword"><b>Confim Password *</b></label>
-                    <input type="password" placeholder="Repeat Password" name="confrimPassword" id="confrimPassword">
-                    <hr>
-                    <button type="submit" class="registerbtn">Register</button>
-                    <div class="signin">
-                        <p>Already have an account? <a href="{% url 'medicine:login' %}">Sign in</a>.</p>
-                      </div>
-                  </div>
-            </form>
-        </div>
+                  <button type="submit" class="registerbtn">Login</button>
+          </div>
+        </form>
+      </div>
     </div>
 </body>
-
 </html>

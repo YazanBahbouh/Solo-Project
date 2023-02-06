@@ -182,6 +182,10 @@ def destroy(request):
 
 
 def form_page(request):
+    if request.method == 'GET':
+        if 'LoginAuth' in request.session:
+            return render(request, 'index.html')
+    request.session['LoginAuth'] = ''
     return render(request, 'index.html')
 
 
@@ -193,7 +197,7 @@ def register(request):
                 messages.error(request, value)
             return redirect('/')
         Register(request)
-    return redirect('/dashboard')
+    return redirect('/')
 
 
 def login(request):
@@ -202,11 +206,6 @@ def login(request):
             return redirect('/dashboard')
         else:
             return redirect('/')
-    elif request.method == 'GET':
-        if 'LoginAuth' in request.session:
-            return render(request, 'login.html')
-    request.session['LoginAuth'] = ''
-
 
 def clear(request):
     del request.session['LoginAuth']

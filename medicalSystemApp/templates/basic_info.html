@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <title>Document</title>
 </head>
 
@@ -73,7 +75,7 @@ h5{
 }
 input[type=text], input[type=password], [type=email], [type=date] {
   width: 100%;
-  padding: 15px;
+  padding: 5px;
   margin: 5px 0 22px 0;
   display: inline-block;
   border: none;
@@ -90,7 +92,6 @@ input[type=text]:focus, input[type=password]:focus, [type=email]:focus, [type=da
 
 <body class="patient-page">
     <div class="nav">
-        <div class="flex-container">
             <ul class="nav-links">
                 <a class="active" href="{% url 'medicine:dashboard' %}">Home</a>
                 <a href="#appointments">Appointments</a>
@@ -104,7 +105,6 @@ input[type=text]:focus, input[type=password]:focus, [type=email]:focus, [type=da
                 </div>
             </div>
         </div>
-    <div>
         {% if messages %}
         <ul class="messages">
                 {% for message in messages %}
@@ -116,84 +116,100 @@ input[type=text]:focus, input[type=password]:focus, [type=email]:focus, [type=da
     <form action="{% url 'medicine:basicInfo' patient_id.id %}" method="post">
         {% csrf_token %}
         <div>
-            <h1>Basic Information</h1>
-            <div class="sign-up-content my-auto pt-md-5">
-
-                <div class="position-relative form-group form-inline">
-                    <label for="firstName" class="mr-1">First Name : </label>
-                    <input type="text" name="firstName" class="form-control form-control-sm mr-3 border-dark"
-                        placeholder="First Name" value="{{ patient_id.patientName }}">
-
-
-                    <label for="lastName" class="mr-1">Last Name : </label>
-                    <input type="lastName" name="lastName" value="{{ basic_information.lastName }}" id="lastName"
-                        placeholder="Last Name" autoComplete="email"
-                        class="form-control form-control-sm mr-3 border-dark" />
-
-                    <label for="birthDate" class="mr-1">Birthday Date : </label>
-                    <input type="date" name="birthDate" class="form-control form-control-sm mr-3 border-dark"
-                        placeholder="Birthday Date" value="{{ basic_information.birthDate|date:'Y-m-d' }}">
-
+            <div class="m-4">
+                <h1>Basic Information</h1>
+                <div class="row">
+                    <div class="col-4">
+                        <label for="firstName" class="mr-1">First Name : </label>
+                        <input type="text" name="firstName" class="form-control"
+                            placeholder="First Name" value="{{ patient_id.patientName }}">
+    
+                    </div>
+                    <div class="col-4">
+                        <label for="lastName" class="mr-1">Last Name : </label>
+                        <input type="text" name="lastName" value="{{ basic_information.lastName }}" id="lastName"
+                            placeholder="Last Name"
+                            class="form-control"/>
+    
+                    </div>
+                    <div class="col-4">
+                        <label for="birthDate" class="mr-1">Birthday Date : </label>
+                        <input type="date" name="birthDate" class="form-control"
+                            placeholder="Birthday Date" value="{{ basic_information.birthDate|date:'Y-m-d' }}">
+    
+                    </div>
                 </div>
 
-                <div class="position-relative form-group form-inline">
-                    <label for="country" class="mr-1">Country : </label>
-                    <input type="text" name="country" class="form-control form-control-sm mr-2 border-dark"
-                        placeholder="Country" value="{{ basic_information.country }}">
+                <div class="row">
+                    <div class="col-4">
+                        <label for="country" class="mr-1">Country : </label>
+                        <input type="text" name="country" class="form-control"
+                            placeholder="Country" value="{{ basic_information.country }}">
+                    </div>
 
-                    <label for="address" class="mr-1">Address : </label>
-                    <input type="address" name="address" value="{{ basic_information.address }}" id="address"
-                        placeholder="address" autoComplete="email"
-                        class="form-control form-control-sm mr-2 border-dark" />
+                    <div class="col-4">
+                        <label for="address" class="mr-1">Address : </label>
+                        <input type="text" name="address" value="{{ basic_information.address }}" id="address"
+                            placeholder="address"
+                            class="form-control" />
+                    </div>
+                    
+                   <div class="col-4">
 
                     <label for="phone" class="mr-1">Phone : </label>
-                    <input type="number" name="phone" class="form-control form-control-sm mr-2 border-dark"
+                    <input type="number" name="phone" class="form-control"
                         placeholder="Phone" value="{{ basic_information.phone }}">
-
+                   </div>
                 </div>
 
-                <div
-                 class="position-relative form-group form-inline">
-                    <input type="checkbox" name="underTreatment" class="form-control form-control-sm mr-2 border-dark"
-                        placeholder="First Name" value="1">
+                <div class="position-relative form-group form-inline">
+                    <input type="checkbox" name="underTreatment" class="form-control"
+                    placeholder="First Name" value="1">
 
-                    <label for="underTreatment" class="mr-1">Patient is under medical treatment</label>
+                <label for="underTreatment" class="mr-1">Patient is under medical treatment</label>  
+                    
                 </div>
 
-                <div
-                 class="position-relative form-group form-inline">
-                    <label for="treatment" class="mr-1">Treatment : </label>
-                    <input type="text" name="treatment" class="form-control form-control-sm mr-2 border-dark"
+                    
+                <div class="row">
+                    <div class="col-4">
+                        <label for="treatment" class="mr-1">Treatment : </label>
+                    <input type="text" name="treatment" class="form-control"
                         placeholder="Treatment" value="{{ basic_information.treatment }}">
+                    </div>
 
-                    <label for="prescriptions" class="mr-1">Prescriptions : </label>
-                    <input type="text" name="prescriptions" class="form-control form-control-sm mr-2 border-dark"
+                    <div class="col-4">
+                        <label for="prescriptions" class="mr-1">Prescriptions : </label>
+                    <input type="text" name="prescriptions" class="form-control"
                         placeholder="Prescriptions" value="{{ basic_information.prescriptions }}">
-
+                    </div>
+                    
+                   <div class="col-4">
                     <label for="alergies" class="mr-1">Alergies : </label>
-                    <input type="address" name="alergies" value="{{ basic_information.alergies }}" id="alergies"
+                    <input type="text" name="alergies" value="{{ basic_information.alergies }}" id="alergies"
                         placeholder="Alergies" autoComplete="email"
-                        class="form-control form-control-sm mr-2 border-dark" />
+                        class="form-control" />
+                   </div>
                 </div>
 
                 <div class="position-relative form-group form-inline">
 
-                    <input type="checkbox" name="pregnant" class="form-control form-control-sm mr-2 border-dark"
+                    <input type="checkbox" name="pregnant" class="form-control"
                         placeholder="pregnant" value="1">
                     <label for="pregnant" class="mr-6">Patient is pregnant</label>
 
                     <label for="diseases" class="mr-1">Diseases : </label>
-                    <input type="text" name="diseases" class="form-control form-control-sm mr-2 border-dark"
+                    <input type="text" name="diseases" class="form-control"
                         placeholder="Prescriptions" value="{{ basic_information.diseases }}">
 
                 </div>
 
-                <button type="submit" class="uaTrack-btn-next-step-1 btn btn-secondary">Update</button>
-                <a href="{% url 'medicine:MidNotes' patient_id.id %}" class="btn btn-secondary">Midical Notes</a>
-                <a href="{% url 'medicine:billingHistory' patient_id.id %}" class="btn btn-secondary">Billing
+                <button type="submit" class="btn btn-success">Update</button>
+                <a href="{% url 'medicine:MidNotes' patient_id.id %}" class="btn btn-info">Midical Notes</a>
+                <a href="{% url 'medicine:billingHistory' patient_id.id %}" class="btn btn-info">Billing
                     History</a>
                 <a href="{% url 'medicine:midPhoto' patient_id.id %}" class="btn btn-secondary">Photo Gallery</a>
-                <a href="{% url 'medicine:delete' patient_id.id %}" class="btn btn-secondary">Delete</a>
+                <a href="{% url 'medicine:delete' patient_id.id %}" class="btn btn-danger">Delete</a>
             </div>
     </form>
 </body>
